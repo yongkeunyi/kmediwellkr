@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-MediWell — 더 치유시대를 위한 플랫폼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c2b24; --ink-soft:#5b665f; --ink-faint:#8b9089;
+  --paper:#f4efe3; --paper-2:#eae1cc; --paper-3:#ded2b3;
+  --jade:#1f4b3e; --jade-light:#3c6e5a; --jade-pale:#dfe9e2;
+  --seal:#b23a2e; --seal-dark:#8a2a20;
+  --gold:#b8892b; --silver:#8b93a0; --bronze:#9c6b3e;
+  --line:#cfc4a4;
+  --radius:10px;
+  --shadow:0 2px 14px rgba(31,75,62,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Noto Sans KR',sans-serif; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.disp{font-family:'Song Myung',serif; letter-spacing:.01em; color:var(--jade); font-weight:400;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit}
+button{font-family:inherit; cursor:pointer;}
+::selection{background:var(--jade); color:var(--paper);}
+
+/* ---- top ribbon ---- */
+.ribbon{
+  background:var(--jade); color:var(--paper); font-size:12.5px;
+  text-align:center; padding:6px 12px; letter-spacing:.02em;
+}
+.ribbon b{font-weight:700}
+
+/* ---- header / nav ---- */
+header{
+  position:sticky; top:0; z-index:40; background:rgba(244,239,227,.92);
+  backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+}
+.hd-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; gap:28px; padding:14px 24px;}
+.logo{display:flex; align-items:center; gap:9px; font-family:'Song Myung',serif; font-size:22px; color:var(--jade); white-space:nowrap; cursor:pointer;}
+.logo .mark{width:30px; height:30px; border-radius:50%; border:1.6px solid var(--jade); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; font-family:'Noto Serif KR',serif;}
+nav.tabs{display:flex; gap:2px; flex:1; overflow-x:auto; scrollbar-width:none;}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{
+  background:none; border:none; padding:9px 14px; font-size:14.5px; color:var(--ink-soft);
+  border-radius:8px; white-space:nowrap; transition:all .15s;
+}
+nav.tabs button:hover{background:var(--paper-2); color:var(--ink);}
+nav.tabs button.active{background:var(--jade); color:var(--paper); font-weight:500;}
+.hd-right{display:flex; align-items:center; gap:10px;}
+.locale-select{
+  border:1px solid var(--line); background:var(--paper); border-radius:8px; padding:7px 10px; font-size:13px; color:var(--ink-soft);
+}
+.auth-pill{
+  border:1px solid var(--jade); color:var(--jade); background:none; border-radius:20px; padding:7px 16px; font-size:13.5px; font-weight:500; white-space:nowrap;
+}
+.auth-pill.on{background:var(--jade); color:var(--paper); border-color:var(--jade);}
+
+/* ---- shell ---- */
+main{max-width:1180px; margin:0 auto; padding:0 24px 90px;}
+.view{display:none; animation:fadein .35s ease;}
+.view.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+
+/* ---- hero ---- */
+.hero{position:relative; padding:64px 0 40px; overflow:hidden;}
+.hero-wave{position:absolute; left:0; right:0; top:38px; height:120px; opacity:.5; pointer-events:none;}
+.hero-eyebrow{font-size:12.5px; letter-spacing:.14em; color:var(--seal); font-weight:700; text-transform:uppercase; margin-bottom:14px;}
+.hero h1{font-size:44px; line-height:1.28; margin:0 0 18px; max-width:760px;}
+.hero h1 em{font-style:normal; color:var(--seal);}
+.hero p.lead{font-size:16.5px; color:var(--ink-soft); max-width:600px; margin:0 0 30px;}
+.hero-ctas{display:flex; gap:12px; flex-wrap:wrap; position:relative; z-index:2;}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; border-radius:8px; padding:13px 22px; font-size:14.5px; font-weight:500;
+  border:1.5px solid var(--jade); transition:all .15s;
+}
+.btn-primary{background:var(--jade); color:var(--paper);}
+.btn-primary:hover{background:var(--jade-light); border-color:var(--jade-light);}
+.btn-ghost{background:none; color:var(--jade);}
+.btn-ghost:hover{background:var(--jade-pale);}
+.btn-seal{border-color:var(--seal); color:var(--seal);}
+.btn-seal:hover{background:#f7e9e7;}
+.btn:disabled{opacity:.45; cursor:not-allowed;}
+
+/* ---- chips ---- */
+.chiprow{display:flex; gap:9px; flex-wrap:wrap; margin:34px 0 6px;}
+.chip{
+  border:1px solid var(--line); background:var(--paper); border-radius:20px; padding:8px 16px; font-size:13.5px; color:var(--ink-soft);
+}
+.chip.active{background:var(--jade); border-color:var(--jade); color:var(--paper); font-weight:500;}
+
+/* ---- section heads ---- */
+.sec-head{display:flex; align-items:baseline; justify-content:space-between; margin:52px 0 20px;}
+.sec-head h2{font-size:24px; margin:0;}
+.sec-head .num{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint); margin-right:8px;}
+.sec-head .see-all{font-size:13px; color:var(--jade); border-bottom:1px dotted var(--jade); padding-bottom:1px;}
+
+/* ---- cards ---- */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:18px;}
+.card{
+  background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; cursor:pointer;
+  transition:transform .18s, box-shadow .18s; display:flex; flex-direction:column;
+}
+.card:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+.card-media{
+  height:128px; display:flex; align-items:center; justify-content:center; position:relative;
+  font-family:'Song Myung',serif; font-size:15px; color:#fff; text-align:center; padding:0 16px;
+}
+.card-body{padding:15px 16px 17px;}
+.card-cat{font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--jade-light); font-weight:700; margin-bottom:6px;}
+.card-title{font-size:15.5px; font-weight:500; color:var(--ink); margin:0 0 6px; line-height:1.4;}
+.card-sub{font-size:12.5px; color:var(--ink-soft); margin:0;}
+.card-foot{display:flex; align-items:center; justify-content:space-between; margin-top:12px;}
+.price{font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:500; color:var(--ink);}
+
+/* seal badge */
+.seal-badge{
+  position:absolute; top:10px; right:10px; width:52px; height:52px; border-radius:50%;
+  border:2px solid #fff; display:flex; align-items:center; justify-content:center; flex-direction:column;
+  transform:rotate(-9deg); font-family:'Noto Serif KR',serif; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,.25);
+}
+.seal-badge span{font-size:9px; letter-spacing:.04em;}
+.seal-badge b{font-size:11px; font-weight:700;}
+.tier-Gold{background:radial-gradient(circle at 35% 30%, #d3a746, var(--gold));}
+.tier-Silver{background:radial-gradient(circle at 35% 30%, #a7afba, var(--silver));}
+.tier-Bronze{background:radial-gradient(circle at 35% 30%, #b98254, var(--bronze));}
+
+/* news strip */
+.newsstrip{display:flex; gap:16px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin;}
+.news-mini{
+  min-width:250px; max-width:250px; background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px; cursor:pointer; transition:box-shadow .15s;
+}
+.news-mini:hover{box-shadow:var(--shadow);}
+.news-mini .flag{font-size:11px; color:var(--seal); font-weight:700; letter-spacing:.04em; text-transform:uppercase; margin-bottom:8px;}
+.news-mini h4{margin:0 0 8px; font-size:14.5px; font-weight:500; line-height:1.4; color:var(--ink);}
+.news-mini .byline{font-size:11.5px; color:var(--ink-faint);}
+
+/* explore filter row */
+.filterbar{display:flex; gap:8px; flex-wrap:wrap; margin:22px 0 26px; align-items:center;}
+.filterbar .lbl{font-size:12.5px; color:var(--ink-faint); margin-right:6px;}
+
+/* detail layout */
+.detail-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:36px; margin-top:20px;}
+@media(max-width:860px){.detail-wrap{grid-template-columns:1fr;}}
+.detail-hero{height:220px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Song Myung',serif; font-size:20px; margin-bottom:22px; position:relative;}
+.backbtn{background:none; border:none; color:var(--jade); font-size:13.5px; display:flex; align-items:center; gap:6px; margin:20px 0 6px; padding:0;}
+.detail-side{background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius); padding:22px; height:fit-content;}
+.detail-side .price-big{font-family:'IBM Plex Mono',monospace; font-size:26px; color:var(--jade); margin:2px 0 4px;}
+.kv{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--paper-2); font-size:13.5px;}
+.kv:last-child{border-bottom:none;}
+.kv .k{color:var(--ink-faint);}
+
+/* forms */
+input[type=date],input[type=email],input[type=password],input[type=text],select{
+  width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:8px; background:#fffdf8; font-size:14px; color:var(--ink); font-family:inherit;
+}
+label.field{display:block; font-size:12.5px; color:var(--ink-soft); margin:14px 0 6px;}
+
+/* journey */
+.stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:24px 0 34px;}
+.stat{background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius); padding:18px;}
+.stat .lbl{font-size:12px; color:var(--ink-faint); margin-bottom:6px;}
+.stat .val{font-family:'IBM Plex Mono',monospace; font-size:26px; color:var(--jade);}
+.chart-box{background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-bottom:30px;}
+.book-row{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--paper-2);}
+.book-row:last-child{border-bottom:none;}
+.status-pill{font-size:11.5px; padding:4px 11px; border-radius:20px; background:var(--jade-pale); color:var(--jade); font-weight:500;}
+
+/* measure */
+.measure-wrap{max-width:560px; margin:30px auto 0; text-align:center;}
+.gauge{width:220px; height:220px; margin:26px auto; position:relative;}
+.wave-band{display:flex; justify-content:center; gap:22px; margin:34px 0;}
+.wave-band .b{text-align:center;}
+.wave-band .bar{width:34px; height:90px; background:var(--paper-2); border-radius:6px; position:relative; overflow:hidden; margin:0 auto 8px;}
+.wave-band .bar .fill{position:absolute; bottom:0; left:0; right:0; background:var(--jade); border-radius:6px; transition:height 1s ease;}
+.rec-box{background:var(--jade-pale); border-radius:var(--radius); padding:22px; margin-top:20px; text-align:left;}
+
+/* auth */
+.psst-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+.psst-table th{background:var(--jade); color:var(--paper); text-align:left; padding:10px 12px; font-weight:500;}
+.psst-table td{padding:10px 12px; border-bottom:1px solid var(--paper-2); color:var(--ink);}
+.psst-table tbody tr:nth-child(even) td{background:var(--paper-2);}
+.psst-h3{font-family:'Song Myung',serif; color:var(--jade); font-size:19px; margin:30px 0 12px;}
+.bmc{display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:auto auto; gap:10px; margin:20px 0;}
+.bmc .cell{background:#fffdf8; border:1px solid var(--line); border-radius:8px; padding:14px;}
+.bmc .cell h5{margin:0 0 8px; font-size:12.5px; color:var(--seal); font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+.bmc .cell p{margin:0; font-size:12.5px; color:var(--ink-soft); line-height:1.55;}
+.bmc .c-partners{grid-row:1/3;}
+.bmc .c-value{grid-row:1/3;}
+.bmc .c-customer{grid-row:1/3;}
+.bmc .c-activities{}
+.bmc .c-relation{}
+.bmc .c-resources{}
+.bmc .c-channels{}
+.bmc .c-cost{grid-column:1/3;}
+.bmc .c-revenue{grid-column:3/6;}
+@media(max-width:900px){.bmc{grid-template-columns:1fr 1fr;} .bmc .cell{grid-row:auto !important; grid-column:auto !important;}}
+.progressline{display:flex; align-items:center; gap:14px; margin:12px 0;}
+.progressline .plabel{width:110px; font-size:12.5px; color:var(--ink-soft); flex-shrink:0;}
+.progressline .ptrack{flex:1; height:10px; background:var(--paper-2); border-radius:6px; overflow:hidden;}
+.progressline .pfill{height:100%; background:var(--jade); border-radius:6px;}
+.progressline .pval{width:66px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--jade); flex-shrink:0;}
+.stepflow{display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:18px 0;}
+.stepflow .step{background:var(--jade-pale); color:var(--jade); border-radius:8px; padding:10px 16px; font-size:13px; font-weight:500; font-family:'IBM Plex Mono',monospace;}
+.stepflow .arrow{color:var(--ink-faint); font-size:16px;}
+.year-badge{position:absolute; top:10px; right:10px; background:#fffdf8; color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; padding:4px 9px; border-radius:20px; box-shadow:0 1px 4px rgba(0,0,0,.18);}
+.no-badge{position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%; background:#fffdf8; color:var(--jade); font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:700; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.18);}
+.gov-source{font-size:11px; color:var(--ink-faint); margin-top:8px;}
+.auth-card{max-width:400px; margin:50px auto; background:#fffdf8; border:1px solid var(--line); border-radius:var(--radius); padding:34px;}
+.auth-tabbar{display:flex; border-bottom:1px solid var(--line); margin-bottom:22px;}
+.auth-tabbar button{flex:1; background:none; border:none; padding:11px; font-size:14px; color:var(--ink-faint); border-bottom:2px solid transparent;}
+.auth-tabbar button.active{color:var(--jade); border-bottom-color:var(--jade); font-weight:500;}
+
+/* empty / note */
+.notebox{background:var(--paper-2); border-left:3px solid var(--jade); border-radius:0 8px 8px 0; padding:14px 18px; font-size:13px; color:var(--ink-soft); margin:18px 0;}
+.disc{font-size:11.5px; color:var(--ink-faint); text-align:center; padding:30px 0 10px;}
+
+/* ebook detail flip */
+.ebook-cover{
+  aspect-ratio:3/4; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:22px; text-align:center;
+  font-family:'Song Myung',serif; color:#fff; font-size:15px; line-height:1.4;
+}
+.heart{border:none; background:none; font-size:20px; color:var(--seal);}
+
+/* toast */
+#toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--jade); color:var(--paper);
+  padding:13px 24px; border-radius:8px; font-size:13.5px; opacity:0; pointer-events:none; transition:all .25s; z-index:100;}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+footer{border-top:1px solid var(--line); padding:34px 24px; text-align:center; color:var(--ink-faint); font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<div class="ribbon">국립공주대학교 RISE사업단 선정 과제 &nbsp;·&nbsp; 「치유관광산업 육성에 관한 법률」(2026.4.9 시행) 기반 서비스 &nbsp;·&nbsp; <b>기능명세서 v0.8 프로토타입</b></div>
+
+<header>
+  <div class="hd-inner">
+    <div class="logo" onclick="go('home')"><span class="mark">治</span>K-MediWell</div>
+    <nav class="tabs" id="tabnav"></nav>
+    <div class="hd-right">
+      <select class="locale-select" id="localeSel" onchange="setLocale(this.value)">
+        <option value="ko">한국어</option>
+        <option value="en">English</option>
+        <option value="zh">中文 (준비중)</option>
+        <option value="ja">日本語 (준비중)</option>
+        <option value="vi">Tiếng Việt (준비중)</option>
+      </select>
+      <button class="auth-pill" id="authPill" onclick="toggleAuth()">로그인</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <svg class="hero-wave" viewBox="0 0 900 120" preserveAspectRatio="none"><path id="eegpath" d="M0,60 Q40,20 80,60 T160,60 T240,60 T320,60 T400,60 T480,60 T560,60 T640,60 T720,60 T800,60 T880,60" fill="none" stroke="#1f4b3e" stroke-width="1.6"/></svg>
+    <div class="hero-eyebrow">더 치유시대를 위한 플랫폼</div>
+    <h1>아리랑 500년의 치유를,<br><em>뇌파로 증명</em>하여 세계로</h1>
+    <p class="lead">한국의 전통 치유문화 — 훈민정음·국악풍류·오정법·전일의학 — 를 전자북과 다국어 저널리즘, 뇌파(EEG) 기반 AX 인증으로 연결하는 K-치유관광 플랫폼입니다.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary" onclick="go('measure')">지금 내 뇌파 측정하기 →</button>
+      <button class="btn btn-ghost" onclick="go('explore')">치유관광지 탐색하기</button>
+    </div>
+    <div class="chiprow" id="homeChips"></div>
+  </div>
+
+  <div class="sec-head"><h2><span class="num">01</span>치유관광타임즈</h2><a class="see-all" onclick="go('news')">전체 기사 보기 →</a></div>
+  <div class="newsstrip" id="newsStrip"></div>
+
+  <div class="sec-head"><h2><span class="num">02</span>외래객 특화 웰니스관광지 20선</h2><a class="see-all" onclick="go('explore')">전체 탐색 →</a></div>
+  <div class="grid" id="top20Grid"></div>
+
+  <div class="sec-head"><h2><span class="num">03</span>치유전자북</h2><a class="see-all" onclick="go('ebooks')">전자북 스토어 →</a></div>
+  <div class="grid" id="homeEbooks"></div>
+</section>
+
+<!-- ============ EXPLORE ============ -->
+<section class="view" id="view-explore">
+  <div class="sec-head" style="margin-top:44px"><h2>치유관광지 탐색</h2></div>
+  <p style="color:var(--ink-soft); max-width:640px">문체부·한국관광공사 공식 선정 웰니스관광 88선 중 외래객 특화 20선을 우선 등재했습니다. 각 시설의 AX 인증 등급은 뇌파(EEG) 측정 데이터를 근거로 부여됩니다.</p>
+  <div class="filterbar"><span class="lbl">카테고리</span><div id="catChips" style="display:flex; gap:8px; flex-wrap:wrap"></div></div>
+  <div class="grid" id="exploreGrid"></div>
+
+  <div class="sec-head"><h2 style="font-size:20px">웰니스관광지 88선 전체</h2></div>
+  <p style="color:var(--ink-soft); font-size:13.5px; max-width:640px">문체부·한국관광공사 공식 선정 88개소 전체를 테마별로 분류해 등재했습니다. 카드를 클릭하면 각 시설의 공식 홈페이지(확인된 곳) 또는 웹 검색 결과로 이동합니다.</p>
+  <div class="filterbar" id="explore88Chips" style="margin:14px 0 18px"></div>
+  <div class="grid" id="explore88Table"></div>
+
+  <div class="sec-head"><h2 style="font-size:20px">외래객 유치 특화 웰니스관광지 20선 + 1</h2></div>
+  <p style="color:var(--ink-soft); font-size:13.5px; max-width:640px">2026년도 외래객 유치 특화 웰니스관광지 20선 원문에, K-MediWell 협업 시설을 21번으로 추가 등재했습니다. 원문 그대로 순서를 유지하며 별도 테마 재분류는 하지 않았습니다.</p>
+  <div class="grid" id="explore20Table" style="margin-top:18px"></div>
+</section>
+
+<section class="view" id="view-siteDetail"></section>
+<section class="view" id="view-booking"></section>
+<section class="view" id="view-bookingDone"></section>
+
+<!-- ============ NEWS ============ -->
+<section class="view" id="view-news">
+  <div class="sec-head" style="margin-top:44px"><h2>글로벌 치유관광타임즈</h2></div>
+  <p style="color:var(--ink-soft); max-width:620px">한국을 가장 많이 방문하는 국가의 언어로 서비스하는 다국어 치유관광 전문 인터넷신문입니다. 국내 체류 유학생 기자단이 직접 취재합니다.</p>
+  <div class="filterbar"><span class="lbl">언어</span><div id="newsLocaleChips" style="display:flex; gap:8px; flex-wrap:wrap"></div></div>
+  <div class="grid" id="newsGrid"></div>
+</section>
+<section class="view" id="view-articleDetail"></section>
+
+<!-- ============ EBOOKS ============ -->
+<section class="view" id="view-ebooks">
+  <div class="sec-head" style="margin-top:44px"><h2>전자북 스토어</h2></div>
+  <p style="color:var(--ink-soft); max-width:620px">한국 전통문화와 치유관광을 소재로 저술한 원고를 아마존 킨들(KDP) 등 전자북 스토어에 정식 출간했습니다. 각 전자북은 관련 치유관광지·기사와 1:1로 연결됩니다.</p>
+  <div class="grid" id="ebookGrid" style="margin-top:24px"></div>
+</section>
+<section class="view" id="view-ebookDetail"></section>
+
+<!-- ============ JOURNEY ============ -->
+<section class="view" id="view-journey">
+  <div class="sec-head" style="margin-top:44px"><h2>나의 치유 여정</h2></div>
+  <div id="journeyGate"></div>
+</section>
+
+<!-- ============ MEASURE ============ -->
+<section class="view" id="view-measure">
+  <div class="sec-head" style="margin-top:44px"><h2>뇌파(EEG) 측정</h2></div>
+  <div id="measureGate"></div>
+</section>
+
+<!-- ============ PSST 사업계획서 ============ -->
+<section class="view" id="view-psst">
+  <div class="sec-head" style="margin-top:44px"><h2>PSST 사업계획서</h2></div>
+  <p style="color:var(--ink-soft); max-width:640px">1R·2R 사업계획서와 K-MediWell 기능명세서(v0.8)를 근거로 정리한 트렌드 분석 · 기술 전략 · 데이터베이스 · 에이전트 구조 · 비즈니스모델 캔버스 · 미래 가치 · 개발 현황입니다.</p>
+  <div class="filterbar" id="psstSubNav"></div>
+  <div id="psstBody"></div>
+</section>
+
+<!-- ============ AUTH ============ -->
+<section class="view" id="view-auth">
+  <div class="auth-card">
+    <div class="auth-tabbar">
+      <button id="authTabLogin" class="active" onclick="setAuthTab('login')">로그인</button>
+      <button id="authTabSignup" onclick="setAuthTab('signup')">회원가입</button>
+    </div>
+    <div id="authFormArea"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<footer>
+  이 화면은 「2026년 모두의 창업 프로젝트」 2R 사업계획서 및 K-MediWell 기능명세서(v0.8)를 기준으로 제작된 클릭형 프로토타입입니다. 실제 결제·EEG 실기기·다국어 번역은 연동되어 있지 않습니다. &nbsp;·&nbsp; kmediwell.com
+</div>
+
+<script>
+const T = {
+  ko:{home:'홈', explore:'탐색', news:'치유관광타임즈', ebooks:'전자북', journey:'여정', measure:'뇌파측정', psstMenu:'PSST 사업계획서', auth:'인증', login:'로그인', logout:'로그아웃', book:'예약하기', subscribe:'구독', subscribed:'구독중', viewSite:'연결된 시설 보기', related:'관련 콘텐츠', loginNeeded:'로그인이 필요합니다', guest:'게스트로 체험하기', backExplore:'← 탐색으로', backNews:'← 치유관광타임즈로', backEbook:'← 전자북 스토어로'},
+  en:{home:'Home', explore:'Explore', news:'Healing Tour Times', ebooks:'Ebooks', journey:'Journey', measure:'Measure', psstMenu:'PSST Business Plan', auth:'Account', login:'Log in', logout:'Log out', book:'Book now', subscribe:'Subscribe', subscribed:'Subscribed', viewSite:'View linked site', related:'Related content', loginNeeded:'Login required', guest:'Try as guest', backExplore:'← Back to Explore', backNews:'← Back to News', backEbook:'← Back to Store'}
+};
+let locale = 'ko';
+let loggedIn = false;
+
+const CATS = ['전체','자연숲치유','뷰티스파','힐링명상','한방','스테이','푸드'];
+
+const SITES = [
+ {id:1, name:'계룡산 숲치유센터', category:'자연숲치유', region:'충남 공주', axTier:'Gold', axNote:'8주 프로그램 참여자 평균 스트레스지수 32% 감소 (뉴로피드백 전후 비교)', programName:'숲 명상 트레킹 2박 3일', price:280000, isTop20:true, color:'#2f5c46', desc:'계룡산 자락의 편백숲에서 진행하는 어싱(맨발걷기)과 숲 명상 프로그램. 매 회차 참가자의 뇌파(α/θ)를 측정해 개인별 치유 리포트를 제공합니다.'},
+ {id:2, name:'다움 필라테스요가 스튜디오', category:'뷰티스파', region:'대전', axTier:'Silver', axNote:'뇌파 기반 스트레스 완화 요가 시퀀스, 참가자 76% 개선 응답', programName:'치유요가 & EEG 케어 세션', price:120000, isTop20:true, color:'#8a4b3e', desc:'박보정 원장이 이끄는 뇌파 측정 연계 필라테스·요가 스튜디오. K-MediWell 프로그램의 공식 뇌파측정 파트너입니다.'},
+ {id:3, name:'법천사 치유명상 템플스테이', category:'힐링명상', region:'공주 갑사', axTier:'Gold', axNote:'주역·능엄경 기반 선명상, 뉴로피드백 뇌파 분석으로 검증', programName:'전통 선명상 1박 2일', price:150000, isTop20:true, color:'#1f4b3e', desc:'법천사 태원 스님과 협업한 전통 선명상 프로그램. 고전 철학과 현대 뇌과학을 결합해 명상 전후 뇌파 변화를 분석합니다.'},
+ {id:4, name:'힐스포레 웰니스 리조트', category:'스테이', region:'공주', axTier:'Silver', axNote:'숙박형 치유 프로그램, AX 인증 준비 중', programName:'웰니스 스테이 패키지', price:220000, isTop20:true, color:'#3c6e5a', desc:'공주 지역 산림 속에 위치한 웰니스 특화 숙박시설. 치유관광 시설업 등록을 추진 중입니다.'},
+ {id:5, name:'국악풍류 소리치유원', category:'힐링명상', region:'서울', axTier:'Gold', axNote:'국악치유음악 청취 전후 세타파 증가 실증', programName:'풍류 소리치유 워크숍', price:95000, isTop20:true, color:'#b8892b', desc:'이규영 국악치유음악 전문가가 진행하는 전통 국악·풍류 기반 치유 프로그램.'},
+ {id:6, name:'한방 오정법 스파', category:'한방', region:'대전', axTier:'Bronze', axNote:'오정법 이론 기반 체질 진단 및 스파 케어', programName:'오정법 체질 스파', price:180000, isTop20:false, color:'#9c6b3e', desc:'전일의학(홀리스틱 의학) 오정법 이론에 기반한 한방 스파 프로그램.'},
+ {id:7, name:'맨발숲길 어싱파크', category:'자연숲치유', region:'공주', axTier:'Bronze', axNote:'청소년 대상 어싱 프로그램 뇌파 측정 실적 보유', programName:'맨발걷기 어싱 체험', price:40000, isTop20:false, color:'#639922', desc:'충남교육청 꿈키움 프로그램에서 실제 운영된 어싱(맨발걷기) 체험 코스.'},
+ {id:8, name:'금강 치유푸드 다이닝', category:'푸드', region:'공주', axTier:'Silver', axNote:'전통 발효식 기반 치유식 제공', programName:'치유 사찰음식 코스', price:65000, isTop20:false, color:'#7c5a3a', desc:'전통 발효·사찰음식을 활용한 치유식 다이닝 프로그램.'}
+];
+
+const SITES88 = [
+ [1,'서울','티테라피','한방',2017],[2,'서울','SPA 1899 동인비','뷰티스파',2017],[3,'서울','여용국 한방스파','한방',2017],
+ [4,'서울','올리바인 스파','뷰티스파',2017],[5,'서울','비스타 워커힐 웰니스클럽','힐링명상',2018],[6,'부산','스파랜드 센텀시티','뷰티스파',2017],
+ [7,'대구','리조트 스파밸리','스테이',2017],[8,'인천','파라다이스시티 씨메르','뷰티스파',2019],[9,'울산','국립대운산치유의숲','자연숲치유',2020],
+ [10,'경기','허브아일랜드 허브힐링센터','뷰티스파',2017],[11,'경기','아쿠아필드 고양','뷰티스파',2018],[12,'강원','힐리언스 선마을','힐링명상',2017],
+ [13,'강원','동해무릉건강숲','자연숲치유',2018],[14,'강원','파크로쉬 리조트앤웰니스','스테이',2018],[15,'강원','뮤지엄SAN 명상관','힐링명상',2019],
+ [16,'강원','용평리조트 발왕산','자연숲치유',2019],[17,'강원','오색그린야드호텔','뷰티스파',2020],[18,'충북','깊은산속 옹달샘','힐링명상',2017],
+ [19,'충북','포레스트 리솜 해브나인 힐링스파','뷰티스파',2017],[20,'충남','팜카밀레','자연숲치유',2018],[21,'충남','파라다이스 스파 도고','뷰티스파',2019],
+ [22,'충남','에덴힐스 뷰티&힐링파크','뷰티스파',2020],[23,'전북','진안홍삼스파','뷰티스파',2017],[24,'전남','순천만국가정원&순천만습지','자연숲치유',2017],
+ [25,'전남','정남진 편백숲 우드랜드','자연숲치유',2017],[26,'전남','태평염전 해양힐링스파','자연숲치유',2018],[27,'전남','전남권환경성질환예방관리센터','힐링명상',2019],
+ [28,'전남','국립장성숲체원','자연숲치유',2020],[29,'경북','인문힐링센터 여명','힐링명상',2020],[30,'경북','국립김천치유의숲','자연숲치유',2020],
+ [31,'경북','국립산림치유원','자연숲치유',2017],[32,'경남','하늘호수','한방',2017],[33,'경남','산청 동의보감촌','한방',2017],
+ [34,'경남','한화리조트 거제 벨버디어 웰니스','힐링명상',2019],[35,'경남','오도산 치유의 숲','자연숲치유',2020],[36,'경남','나폴리농원','자연숲치유',2020],
+ [37,'제주','WE호텔 웰니스센터','스테이',2017],[38,'제주','서귀포 치유의 숲','자연숲치유',2018],[39,'제주','취다선 리조트','스테이',2019],
+ [40,'서울','서울한방진흥센터','한방',2021],[41,'인천','더스파 앳 파라다이스','뷰티스파',2021],[42,'강원','로미지안 가든','힐링명상',2021],
+ [43,'강원','하이원 리조트','자연숲치유',2021],[44,'경북','금강송 에코리움','자연숲치유',2021],[45,'충북','좌구산 자연휴양림','힐링명상',2021],
+ [46,'전북','구이안덕건강힐링체험마을','한방',2021],[47,'서울','메이필드호텔 서울','힐링명상',2022],[48,'서울','이문원한의원','한방',2022],
+ [49,'대구','뷰라운지','뷰티스파',2022],[50,'강원','동해보양온천컨벤션호텔','뷰티스파',2022],[51,'강원','설해원','뷰티스파',2022],
+ [52,'경남','거창 항노화힐링랜드','자연숲치유',2022],[53,'전북','태권도원 상징지구','힐링명상',2022],[54,'제주','환상숲곶자왈공원','자연숲치유',2022],
+ [55,'제주','제주901','힐링명상',2022],[56,'강원','산림힐링재단(하이힐링원)','힐링명상',2023],[57,'강원','삼척 활기치유의숲','자연숲치유',2023],
+ [58,'경남','숲애서','힐링명상',2023],[59,'경북','국립칠곡숲체원','자연숲치유',2023],[60,'광주','테라피 스파 소베','뷰티스파',2023],
+ [61,'인천','더 스파 하스타','뷰티스파',2023],[62,'인천','현대요트 인천','자연숲치유',2023],[63,'제주','제원 하늘농원','자연숲치유',2023],
+ [64,'충북','국립제천치유의숲','자연숲치유',2023],[65,'인천','금풍양조장','푸드',2024],[66,'인천','경원재','스테이',2024],
+ [67,'경기','미리내 힐빙클럽','힐링명상',2024],[68,'강원','오크밸리','자연숲치유',2024],[69,'경북','소백산생태탐방원','자연숲치유',2024],
+ [70,'충북','레인보우 힐링센터','힐링명상',2024],[71,'전북','아원고택','스테이',2024],[72,'전북','쉴(SHIL)랜드','푸드',2024],
+ [73,'전남','완도 해양치유센터','자연숲치유',2024],[74,'대구','사유원','힐링명상',2024],[75,'대구','한국전통문화체험관','푸드',2024],
+ [76,'부산','클럽디오아시스','뷰티스파',2024],[77,'제주','JW 메리어트 제주','스테이',2024],[78,'서울','하이디하우스','뷰티스파',2025],
+ [79,'경기','트리비움','힐링명상',2025],[80,'인천','약석원','한방',2025],[81,'인천','차덕분','푸드',2025],
+ [82,'경남','하동야생차문화센터','힐링명상',2025],[83,'부산','에스엠비 웰니스센터','뷰티스파',2025],[84,'전북','고창웰파크시티','뷰티스파',2025],
+ [85,'전남','대흥사','힐링명상',2025],[86,'전남','전라남도 마음건강치유센터','한방',2025],[87,'제주','교래자연휴양림','자연숲치유',2025],
+ [88,'제주','해비치호텔앤드리조트','스테이',2025]
+].map(r=>({no:r[0], region:r[1], name:r[2], theme:r[3], year:r[4]}));
+
+const SITES20 = [
+ [1,'뷰티·스파','서울','스파 1978 대치 본점','홍삼을 활용한 아로마테라피, 마사지·스파'],
+ [2,'뷰티·스파','부산','스파랜드 센텀시티','도심 속의 휴양형 온천시설·에스테틱 운영'],
+ [3,'뷰티·스파','부산','클럽 디 오아시스','해운대를 한눈에 담은 프리미엄 스파(국민보양온천 제8호), 워터파크 운영'],
+ [4,'뷰티·스파','인천','더 스파 앳 파라다이스','강화 인삼 족욕리추얼, 마인드·바디 테라피 등 럭셔리 스파·테라피 운영'],
+ [5,'뷰티·스파','대구','뷰라운지','피부, 두피케어 라운지, 해외관광객 대상 K-뷰티·웰니스체험 운영'],
+ [6,'뷰티·스파','강원','동해보양온천컨벤션호텔','보양온천, 온천수 활용 수영장, 스파프로그램 운영'],
+ [7,'힐링·명상','대구','사유원','자연, 건축물과 함께하는 사유·사색의 공간으로, 명상, 티테라피 프로그램 운영'],
+ [8,'힐링·명상','제주','제주901','명상, 요가 등 리트릿·스테이 프로그램 운영'],
+ [9,'한방','서울','여용국 한방스파','한국 전통미용법 계승 에스테틱 스파 프로그램, 체질별 한방 프로그램 운영'],
+ [10,'한방','서울','티테라피','전통재료를 활용한 티 테라피 프로그램'],
+ [11,'한방','서울','이문원한의원','탈모 치료, 모발 생애주기 관리 프로그램, 메디컬 헤드스파 등'],
+ [12,'스테이','전북','아원고택','250년 된 고택을 활용한 스테이 프로그램'],
+ [13,'스테이','강원','파크로쉬 리조트 앤 웰니스','자연 속에서 요가, 명상, 숲치유 등 웰니스프로그램 운영'],
+ [14,'스테이','제주','JW 메리어트 제주','인피니티풀, 버건옵션 포함 조식, 프라이빗 사운드 요가 프로그램 운영'],
+ [15,'스테이','제주','WE호텔','WE 병원 전문성 기반, 숙박, 휴식, 회복프로그램 운영'],
+ [16,'푸드','인천','금풍양조장','막걸리 주조 체험프로그램 등 운영'],
+ [17,'푸드','대구','한국전통문화체험관','다례, 명상실, 동의보감 음식 체험실 등 운영'],
+ [18,'자연치유','강원','하이원리조트','청정 자연 속 힐링 가능한 숙박시설'],
+ [19,'자연치유','강원','오크밸리리조트','강원도 아름다운 자연 속 숙박시설'],
+ [20,'자연치유','제주','환상숲곶자왈공원','제주도에 위치한 원시림에서 숲체험 프로그램 운영'],
+ [21,'힐링·명상','충남 공주','법천사 치유명상 템플스테이','K-MediWell 추가 등재 — 주역·능엄경 기반 선명상, 뉴로피드백 뇌파 분석으로 검증']
+].map(r=>({no:r[0], field:r[1], region:r[2], name:r[3], note:r[4]}));
+
+const EBOOKS = [
+ {id:1, title:'The Great Secret of the Korean Language', ko:'한글의 위대한 비밀', author:'Yong Keun Lee', category:'한글', price:4.99, relatedSiteId:3, color:'#1f4b3e', desc:'훈민정음 창제 원리에 담긴 치유 철학을 소개하는 전자북. 소리와 문자가 어떻게 심신의 균형과 연결되는지를 다룹니다.'},
+ {id:2, title:'The Great Secret of HUNTR/X and Arirang', ko:'헌트릭스와 아리랑의 위대한 비밀', author:'Yong Keun Lee · Kyu Young Lee', category:'국악·아리랑', price:4.99, relatedSiteId:5, color:'#b8892b', desc:'K-팝 「케이팝 데몬 헌터스」를 입구로 삼아 아리랑 500년의 소리를 소개하는 전자북. 본 사업의 대표 콘텐츠입니다.'},
+ {id:3, title:'Real Wonderland, Korea — Hyper-Reality Society', ko:'리얼 원더랜드, 코리아', author:'Yong Keun Lee', category:'한국문화', price:5.99, relatedSiteId:4, color:'#3c6e5a', desc:'K-MediWell 국가브랜드 비전을 담은 전자북. 한국을 하이퍼리얼리티 웰니스 사회로 소개합니다.'},
+ {id:4, title:"CHARGED — How a 5,000-Year-Old Meditation System Awakens the Brain's Energy", ko:'참전계경, 5천년 명상이 깨우는 뇌의 에너지', author:'Tae Won Kang', category:'명상·뇌과학', price:5.99, relatedSiteId:3, color:'#8a2a20', desc:'법천사 태원 스님이 저술한 전통 명상과 현대 뇌과학(브레인 에너지 이론)을 결합한 전자북.'},
+ {id:5, title:'A Journey That Discovers the Self', ko:'자아를 발견하는 여행', author:'Yong Keun Lee · Kyu Young Lee', category:'여행인문학', price:3.99, relatedSiteId:1, color:'#5b665f', desc:'치유관광의 여정을 통해 자아를 발견하는 과정을 그린 여행인문학 전자북.'},
+ {id:6, title:'A Journey That Asks for the Way of Life', ko:'삶의 길을 묻는 여행', author:'Yong Keun Lee', category:'여행인문학', price:3.99, relatedSiteId:6, color:'#9c6b3e', desc:'전통 치유문화 속에서 삶의 방향을 성찰하는 여행 에세이.'},
+ {id:7, title:'A Transformation Journey That Changes Me', ko:'나를 바꾸는 변화의 여행', author:'Lae Young Lee', category:'자아발견', price:3.99, relatedSiteId:2, color:'#b23a2e', desc:'치유관광 체험을 통한 개인의 변화 과정을 담은 에세이.'},
+ {id:8, title:'The Sweet Journey of Farewell', ko:'이별의 달콤한 여정', author:'Lae Young Lee', category:'이별과 치유', price:3.99, relatedSiteId:7, color:'#639922', desc:'상실과 이별의 감정을 치유관광을 통해 다루는 에세이.'}
+];
+
+const ARTICLES = [
+ {id:1, locale:'ko', title:"계룡산 숲치유센터, 뇌파로 증명한 스트레스 32% 감소", excerpt:'뉴로피드백 측정 결과, 2박 3일 숲 명상 프로그램 참가자의 스트레스 지수가 평균 32% 낮아진 것으로 나타났다.', authorName:'응우옌 티 마이', authorCountry:'베트남', relatedSiteId:1, relatedEbookId:5, date:'2026.7.28'},
+ {id:2, locale:'en', title:"Inside Korea's First Brainwave-Verified Forest Healing Center", excerpt:"Neurofeedback data shows a 32% average drop in stress index among participants of the 3-day forest meditation program at Gyeryongsan.", authorName:'Nguyen Thi Mai', authorCountry:'Vietnam', relatedSiteId:1, relatedEbookId:5, date:'2026.7.28'},
+ {id:3, locale:'ko', title:'법천사 선명상, 주역·능엄경이 만난 뇌과학', excerpt:'법천사 태원 스님과 국립공주대 연구팀이 전통 선명상 전후 뇌파 변화를 분석한 결과를 공개했다.', authorName:'왕 리팡', authorCountry:'중국', relatedSiteId:3, relatedEbookId:4, date:'2026.7.15'},
+ {id:4, locale:'en', title:'Beopcheonsa Temple Meditation Meets Modern Neuroscience', excerpt:'A joint research team analyzed EEG changes before and after traditional Zen meditation sessions at Beopcheonsa Temple.', authorName:'Wang Lifang', authorCountry:'China', relatedSiteId:3, relatedEbookId:4, date:'2026.7.15'},
+ {id:5, locale:'ko', title:"'케이팝 데몬 헌터스'가 다시 부른 아리랑 500년", excerpt:'전 세계 K-팝 팬덤이 아리랑의 원류를 궁금해하기 시작했다. 국악풍류 소리치유원을 찾아가 봤다.', authorName:'다나카 유이', authorCountry:'일본', relatedSiteId:5, relatedEbookId:2, date:'2026.6.30'},
+ {id:6, locale:'en', title:"How 'KPop Demon Hunters' Revived 500 Years of Arirang", excerpt:'Global K-pop fandoms are asking about the roots of Arirang. We visited a traditional gukak healing center to find out why.', authorName:'Tanaka Yui', authorCountry:'Japan', relatedSiteId:5, relatedEbookId:2, date:'2026.6.30'}
+];
+
+const JOURNEY_TREND = [ {d:'7/1', v:62}, {d:'7/8', v:58}, {d:'7/15', v:51}, {d:'7/22', v:47}, {d:'7/29', v:41}, {d:'8/6', v:36} ];
+let MY_BOOKINGS = [
+ {site:'법천사 치유명상 템플스테이', program:'전통 선명상 1박 2일', date:'2026-08-22', amount:150000, status:'확정'}
+];
+let SUBS = new Set([2,4]);
+
+const tabsDef = [
+ {id:'home', label:'home'}, {id:'explore', label:'explore'}, {id:'news', label:'news'},
+ {id:'ebooks', label:'ebooks'}, {id:'journey', label:'journey'}, {id:'measure', label:'measure'},
+ {id:'psst', label:'psstMenu'}
+];
+
+function tt(k){ return (T[locale] && T[locale][k]) || T.ko[k]; }
+
+function renderNav(){
+  const nav = document.getElementById('tabnav');
+  nav.innerHTML = tabsDef.map(t=>`<button data-tab="${t.id}" onclick="go('${t.id}')">${tt(t.label)}</button>`).join('');
+}
+
+function setLocale(l){ locale = l; renderAll(); }
+
+function toggleAuth(){
+  if(loggedIn){ loggedIn = false; updateAuthPill(); toast('로그아웃 되었습니다'); go('home'); }
+  else { go('auth'); }
+}
+function updateAuthPill(){
+  const p = document.getElementById('authPill');
+  p.textContent = loggedIn ? tt('logout') : tt('login');
+  p.classList.toggle('on', loggedIn);
+}
+function setAuthTab(which){
+  document.getElementById('authTabLogin').classList.toggle('active', which==='login');
+  document.getElementById('authTabSignup').classList.toggle('active', which==='signup');
+  renderAuthForm(which);
+}
+function renderAuthForm(which){
+  const area = document.getElementById('authFormArea');
+  if(which==='signup'){
+    area.innerHTML = `
+      <label class="field">이름</label><input type="text" placeholder="이름을 입력하세요">
+      <label class="field">이메일</label><input type="email" placeholder="name@example.com">
+      <label class="field">비밀번호</label><input type="password" placeholder="8자 이상">
+      <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:22px" onclick="doAuth()">회원가입</button>
+      <div class="notebox" style="margin-top:16px">프로토타입 화면입니다 — 실제 계정을 생성하지 않고 게스트로 체험할 수 있습니다.</div>
+      <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:8px" onclick="doAuth()">${tt('guest')}</button>`;
+  } else {
+    area.innerHTML = `
+      <label class="field">이메일</label><input type="email" placeholder="name@example.com">
+      <label class="field">비밀번호</label><input type="password" placeholder="비밀번호">
+      <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:22px" onclick="doAuth()">로그인</button>
+      <div class="notebox" style="margin-top:16px">프로토타입 화면입니다 — 실제 계정을 생성하지 않고 게스트로 체험할 수 있습니다.</div>
+      <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:8px" onclick="doAuth()">${tt('guest')}</button>`;
+  }
+}
+function doAuth(){ loggedIn = true; updateAuthPill(); toast('로그인 되었습니다'); go('journey'); }
+
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(window.__t); window.__t = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+let currentView = 'home';
+let exploreFilter = '전체';
+let newsLocaleFilter = 'ko';
+
+function go(view, param){
+  currentView = view;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===view));
+  const target = document.getElementById('view-'+view);
+  if(target){ target.classList.add('active'); }
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(view==='siteDetail') renderSiteDetail(param);
+  if(view==='articleDetail') renderArticleDetail(param);
+  if(view==='ebookDetail') renderEbookDetail(param);
+  if(view==='booking') renderBooking(param);
+  if(view==='journey') renderJourney();
+  if(view==='measure') renderMeasure();
+  if(view==='psst') renderPsst(param);
+  if(view==='auth') setAuthTab('login');
+}
+
+function sealBadge(tier){
+  return `<div class="seal-badge tier-${tier}"><b>${tier==='Gold'?'금':tier==='Silver'?'은':'동'}</b><span>${tier}</span></div>`;
+}
+
+const THEME_COLORS = {'자연숲치유':'#2f5c46','뷰티스파':'#8a4b3e','힐링명상':'#1f4b3e','한방':'#9c6b3e','스테이':'#3c6e5a','푸드':'#639922'};
+const FIELD_COLORS = {'자연치유':'#2f5c46','뷰티·스파':'#8a4b3e','힐링·명상':'#1f4b3e','한방':'#9c6b3e','스테이':'#3c6e5a','푸드':'#639922'};
+const OFFICIAL_URLS = {
+ '티테라피':'https://teatherapy.cafe24.com/',
+ 'SPA 1899 동인비':'https://www.spa1899.co.kr/',
+ '여용국 한방스파':'https://yeoyongguk.com/',
+ '올리바인 스파':'https://www.olivine.co.kr/',
+ '비스타 워커힐 웰니스클럽':'https://www.walkerhill.com/vistawalkerhillseoul/',
+ '스파랜드 센텀시티':'https://www.shinsegae.com/store/entertainment/centum-spaland.do',
+ '서울한방진흥센터':'https://kmedi.ddm.go.kr/',
+ '파라다이스시티 씨메르':'https://www.p-city.com/front/cimer/overview',
+ '국립대운산치유의숲':'https://www.fowi.or.kr/',
+ '국립산림치유원':'https://www.sooperang.go.kr/',
+ '파크로쉬 리조트앤웰니스':'https://park-roche.com/',
+ '파크로쉬 리조트 앤 웰니스':'https://park-roche.com/',
+ '용평리조트 발왕산':'https://www.yongpyong.co.kr/',
+ '하이원 리조트':'https://www.high1.com/',
+ '하이원리조트':'https://www.high1.com/',
+ '산청 동의보감촌':'https://donguibogam-village.sancheong.go.kr/',
+};
+function govLink(name, region){
+  const off = OFFICIAL_URLS[name];
+  if(off) return {url:off, official:true};
+  return {url:'https://search.naver.com/search.naver?query='+encodeURIComponent(name+' '+region), official:false};
+}
+function gov88Card(s){
+  const color = THEME_COLORS[s.theme] || '#5b665f';
+  const lk = govLink(s.name, s.region);
+  return `<a class="card" href="${lk.url}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; display:flex; flex-direction:column;">
+    <div class="card-media" style="background:${color}"><span class="year-badge">${s.year} 선정</span>${s.name}</div>
+    <div class="card-body">
+      <div class="card-cat">${s.theme} · ${s.region}</div>
+      <p class="card-title" style="font-size:14.5px">${s.name}</p>
+      <p class="gov-source">문체부·한국관광공사 공식 선정 웰니스관광지 88선</p>
+      <p class="gov-source" style="margin-top:6px; color:${lk.official?'var(--jade)':'var(--ink-faint)'}; font-weight:${lk.official?'500':'400'}">${lk.official?'공식 홈페이지 ↗':'웹 검색으로 찾기 ↗'}</p>
+    </div>
+  </a>`;
+}
+function gov20Card(s){
+  const color = FIELD_COLORS[s.field] || '#5b665f';
+  const lk = govLink(s.name, s.region);
+  return `<a class="card" href="${lk.url}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; display:flex; flex-direction:column;">
+    <div class="card-media" style="background:${color}"><span class="no-badge">${s.no}</span>${s.name}</div>
+    <div class="card-body">
+      <div class="card-cat">${s.field} · ${s.region}</div>
+      <p class="card-title" style="font-size:14.5px">${s.name}</p>
+      <p class="card-sub">${s.note}</p>
+      <p class="gov-source" style="margin-top:6px; color:${lk.official?'var(--jade)':'var(--ink-faint)'}; font-weight:${lk.official?'500':'400'}">${lk.official?'공식 홈페이지 ↗':'웹 검색으로 찾기 ↗'}</p>
+    </div>
+  </a>`;
+}
+function siteCard(s){
+  return `<div class="card" onclick="go('siteDetail', ${s.id})">
+    <div class="card-media" style="background:${s.color}">${sealBadge(s.axTier)}${s.name}</div>
+    <div class="card-body">
+      <div class="card-cat">${s.category} · ${s.region}</div>
+      <p class="card-title">${s.programName}</p>
+      <p class="card-sub">${s.axNote.slice(0,42)}…</p>
+      <div class="card-foot"><span class="price">₩${s.price.toLocaleString()}~</span><span style="font-size:12px; color:var(--jade)">상세보기 →</span></div>
+    </div>
+  </div>`;
+}
+function ebookCard(e){
+  const subbed = SUBS.has(e.id);
+  return `<div class="card" onclick="go('ebookDetail', ${e.id})">
+    <div class="card-media" style="background:${e.color}; height:150px;">${e.title}</div>
+    <div class="card-body">
+      <div class="card-cat">${e.category}</div>
+      <p class="card-title" style="font-size:13.5px">${e.ko}</p>
+      <p class="card-sub">${e.author}</p>
+      <div class="card-foot"><span class="price">$${e.price}</span><span style="font-size:12px; color:${subbed?'var(--seal)':'var(--jade)'}">${subbed?'♥ '+tt('subscribed'):tt('subscribe')+' →'}</span></div>
+    </div>
+  </div>`;
+}
+function newsMini(a){
+  return `<div class="news-mini" onclick="go('articleDetail', ${a.id})">
+    <div class="flag">${a.locale==='ko'?'한국어':'English'} · ${a.date}</div>
+    <h4>${a.title}</h4>
+    <div class="byline">${a.authorName} (${a.authorCountry}) 기자</div>
+  </div>`;
+}
+
+function renderHome(){
+  document.getElementById('homeChips').innerHTML = CATS.slice(1).map(c=>`<button class="chip" onclick="exploreFilter='${c}'; go('explore')">${c}</button>`).join('');
+  document.getElementById('newsStrip').innerHTML = ARTICLES.filter(a=>a.locale==='ko').slice(0,4).map(newsMini).join('');
+  document.getElementById('top20Grid').innerHTML = SITES.filter(s=>s.isTop20).slice(0,6).map(siteCard).join('');
+  document.getElementById('homeEbooks').innerHTML = EBOOKS.slice(0,4).map(ebookCard).join('');
+}
+
+function renderExplore(){
+  document.getElementById('catChips').innerHTML = CATS.map(c=>`<button class="chip ${exploreFilter===c?'active':''}" onclick="exploreFilter='${c}'; renderExplore()">${c}</button>`).join('');
+  const list = exploreFilter==='전체' ? SITES : SITES.filter(s=>s.category===exploreFilter);
+  document.getElementById('exploreGrid').innerHTML = list.map(siteCard).join('') || `<p style="color:var(--ink-faint)">해당 카테고리의 시설이 아직 없습니다.</p>`;
+  renderExplore88();
+  renderExplore20();
+}
+
+let explore88Cat = '전체';
+function setExplore88Cat(c){ explore88Cat = c; renderExplore88(); }
+function renderExplore88(){
+  const cats = ['전체','자연숲치유','뷰티스파','힐링명상','한방','스테이','푸드'];
+  document.getElementById('explore88Chips').innerHTML = cats.map(c=>`<button class="chip ${explore88Cat===c?'active':''}" onclick="setExplore88Cat('${c}')">${c}</button>`).join('');
+  const list = explore88Cat==='전체' ? SITES88 : SITES88.filter(s=>s.theme===explore88Cat);
+  document.getElementById('explore88Table').innerHTML = list.map(gov88Card).join('');
+}
+function renderExplore20(){
+  document.getElementById('explore20Table').innerHTML = SITES20.map(gov20Card).join('');
+}
+
+function renderSiteDetail(id){
+  const s = SITES.find(x=>x.id===id); if(!s) return;
+  const relatedEbook = EBOOKS.find(e=>e.relatedSiteId===s.id);
+  document.getElementById('view-siteDetail').innerHTML = `
+    <button class="backbtn" onclick="go('explore')">${tt('backExplore')}</button>
+    <div class="detail-hero" style="background:${s.color}">${sealBadge(s.axTier)}${s.name}</div>
+    <div class="detail-wrap">
+      <div>
+        <div class="card-cat">${s.category} · ${s.region}</div>
+        <h2 style="margin:8px 0 14px">${s.programName}</h2>
+        <p style="color:var(--ink-soft)">${s.desc}</p>
+        <div class="notebox"><b>AX 인증 근거</b> — ${s.axNote}</div>
+        ${relatedEbook ? `<div class="sec-head" style="margin:34px 0 14px"><h2 style="font-size:17px">${tt('related')}</h2></div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">${ebookCard(relatedEbook)}</div>` : ''}
+      </div>
+      <div class="detail-side">
+        <div style="font-size:12.5px; color:var(--ink-faint)">1인 기준</div>
+        <div class="price-big">₩${s.price.toLocaleString()}</div>
+        <div class="kv"><span class="k">플랫폼 수수료 (8%)</span><span>₩${Math.round(s.price*0.08).toLocaleString()}</span></div>
+        <div class="kv"><span class="k">총 결제 예상</span><span><b>₩${Math.round(s.price*1.08).toLocaleString()}</b></span></div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:18px" onclick="go('booking', ${s.id})">${tt('book')}</button>
+        <button class="btn btn-ghost" style="width:100%; justify-content:center; margin-top:8px" onclick="toast('시설 정보를 공유했습니다')">공유하기</button>
+      </div>
+    </div>`;
+}
+
+function renderBooking(id){
+  const s = SITES.find(x=>x.id===id); if(!s) return;
+  document.getElementById('view-booking').innerHTML = `
+    <button class="backbtn" onclick="go('siteDetail', ${s.id})">← 상세 페이지로</button>
+    <div style="max-width:480px; margin:14px auto 0;">
+      <h2>예약하기</h2>
+      <p style="color:var(--ink-soft); font-size:14px">${s.name} · ${s.programName}</p>
+      <label class="field">방문 날짜</label>
+      <input type="date" id="bookDate" value="2026-09-10">
+      <label class="field">인원</label>
+      <select id="bookPax"><option>1명</option><option>2명</option><option>3명</option><option>4명 이상</option></select>
+      <div class="detail-side" style="margin-top:22px">
+        <div class="kv"><span class="k">프로그램 요금</span><span>₩${s.price.toLocaleString()}</span></div>
+        <div class="kv"><span class="k">플랫폼 수수료 (8%)</span><span>₩${Math.round(s.price*0.08).toLocaleString()}</span></div>
+        <div class="kv"><span class="k">총 결제 금액</span><span><b>₩${Math.round(s.price*1.08).toLocaleString()}</b></span></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:18px" onclick="confirmBooking(${s.id})">예약 확정하기</button>
+      <div class="notebox">실제 결제(PG)는 연동되어 있지 않은 프로토타입입니다. FR-3.4 예산 항목으로 2R 이후 연동 예정.</div>
+    </div>`;
+}
+function confirmBooking(id){
+  const s = SITES.find(x=>x.id===id);
+  const date = document.getElementById('bookDate').value || '2026-09-10';
+  MY_BOOKINGS.unshift({site:s.name, program:s.programName, date, amount:Math.round(s.price*1.08), status:'확정'});
+  document.getElementById('view-bookingDone').innerHTML = `
+    <div style="max-width:480px; margin:70px auto; text-align:center;">
+      <div style="width:64px; height:64px; border-radius:50%; background:var(--jade); color:var(--paper); display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 22px;">✓</div>
+      <h2>예약이 확정되었습니다</h2>
+      <p style="color:var(--ink-soft)">${s.name}<br>${date}</p>
+      <div class="hero-ctas" style="justify-content:center; margin-top:26px">
+        <button class="btn btn-primary" onclick="go('journey')">여정에서 확인하기</button>
+        <button class="btn btn-ghost" onclick="go('home')">홈으로</button>
+      </div>
+    </div>`;
+  go('bookingDone');
+  toast('예약이 확정되었습니다');
+}
+
+function renderNews(){
+  document.getElementById('newsLocaleChips').innerHTML = ['ko','en'].map(l=>`<button class="chip ${newsLocaleFilter===l?'active':''}" onclick="newsLocaleFilter='${l}'; renderNews()">${l==='ko'?'한국어':'English'}</button>`).join('') +
+   ['中文','日本語','Tiếng Việt'].map(l=>`<button class="chip" style="opacity:.5; cursor:default">${l} · 준비중</button>`).join('');
+  document.getElementById('newsGrid').innerHTML = ARTICLES.filter(a=>a.locale===newsLocaleFilter).map(newsMini).join('');
+}
+
+function renderArticleDetail(id){
+  const a = ARTICLES.find(x=>x.id===id); if(!a) return;
+  const site = SITES.find(s=>s.id===a.relatedSiteId);
+  const ebook = EBOOKS.find(e=>e.id===a.relatedEbookId);
+  document.getElementById('view-articleDetail').innerHTML = `
+    <button class="backbtn" onclick="go('news')">${tt('backNews')}</button>
+    <div style="max-width:680px; margin:10px auto 0;">
+      <div class="card-cat">${a.locale==='ko'?'한국어':'English'} · ${a.date}</div>
+      <h2 style="margin:10px 0 16px; line-height:1.4">${a.title}</h2>
+      <p style="color:var(--ink-faint); font-size:13px; margin-bottom:22px">${a.authorName} (${a.authorCountry}) 치유관광 기자단</p>
+      <p style="font-size:15.5px; color:var(--ink); line-height:1.85">${a.excerpt} ${a.excerpt}</p>
+      <div class="sec-head" style="margin:38px 0 14px"><h2 style="font-size:17px">Continue the Journey</h2></div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+        ${site ? siteCard(site) : ''}
+        ${ebook ? ebookCard(ebook) : ''}
+      </div>
+    </div>`;
+}
+
+function renderEbooks(){
+  document.getElementById('ebookGrid').innerHTML = EBOOKS.map(ebookCard).join('');
+}
+function renderEbookDetail(id){
+  const e = EBOOKS.find(x=>x.id===id); if(!e) return;
+  const site = SITES.find(s=>s.id===e.relatedSiteId);
+  const subbed = SUBS.has(e.id);
+  document.getElementById('view-ebookDetail').innerHTML = `
+    <button class="backbtn" onclick="go('ebooks')">${tt('backEbook')}</button>
+    <div class="detail-wrap" style="grid-template-columns:280px 1fr; margin-top:14px">
+      <div class="ebook-cover" style="background:${e.color}">${e.title}</div>
+      <div>
+        <div class="card-cat">${e.category}</div>
+        <h2 style="margin:8px 0 4px; font-size:22px">${e.ko}</h2>
+        <p style="color:var(--ink-faint); font-size:13.5px; margin-bottom:16px">${e.title} · ${e.author}</p>
+        <p style="color:var(--ink-soft)">${e.desc}</p>
+        <div style="display:flex; gap:10px; margin-top:22px; flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="toggleSub(${e.id})"><span class="heart" style="color:${subbed?'#fff':'inherit'}">♥</span> ${subbed?tt('subscribed'):tt('subscribe')}</button>
+          <button class="btn btn-ghost" disabled title="아마존 KDP 딥링크 연동 예정 (FR-4.3)">Amazon KDP에서 보기 ↗</button>
+        </div>
+        <div class="notebox">전자북 실판매(자체 결제/아마존 딥링크)는 FR-4.3 예산 항목으로 다음 라운드에 연동 예정입니다.</div>
+        ${site ? `<div class="sec-head" style="margin:30px 0 14px"><h2 style="font-size:17px">${tt('viewSite')}</h2></div><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">${siteCard(site)}</div>` : ''}
+      </div>
+    </div>`;
+}
+function toggleSub(id){
+  if(SUBS.has(id)){ SUBS.delete(id); toast('구독을 취소했습니다'); } else { SUBS.add(id); toast('구독했습니다'); }
+  renderEbookDetail(id);
+}
+
+function renderJourney(){
+  const gate = document.getElementById('journeyGate');
+  if(!loggedIn){
+    gate.innerHTML = `<div class="notebox" style="max-width:460px">${tt('loginNeeded')} — 여정 기록·예약 내역은 로그인 후 확인할 수 있습니다.</div>
+    <button class="btn btn-primary" style="margin-top:6px" onclick="go('auth')">${tt('login')}</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="doAuth()">${tt('guest')}</button>`;
+    return;
+  }
+  const latest = JOURNEY_TREND[JOURNEY_TREND.length-1].v;
+  const first = JOURNEY_TREND[0].v;
+  const delta = Math.round(((first-latest)/first)*100);
+  const maxV = Math.max(...JOURNEY_TREND.map(x=>x.v));
+  const pts = JOURNEY_TREND.map((p,i)=>{
+    const x = 30 + i*(560/(JOURNEY_TREND.length-1));
+    const y = 150 - (p.v/maxV)*120;
+    return {x,y,...p};
+  });
+  const path = pts.map((p,i)=> (i===0?'M':'L')+p.x+','+p.y ).join(' ');
+  gate.innerHTML = `
+    <div class="stat-row">
+      <div class="stat"><div class="lbl">최근 스트레스 지수</div><div class="val">${latest}</div></div>
+      <div class="stat"><div class="lbl">6주간 변화</div><div class="val" style="color:var(--seal)">-${delta}%</div></div>
+      <div class="stat"><div class="lbl">누적 예약</div><div class="val">${MY_BOOKINGS.length}</div></div>
+    </div>
+    <div class="chart-box">
+      <div style="font-size:13px; color:var(--ink-faint); margin-bottom:14px">스트레스 지수 추이 (healingRecords)</div>
+      <svg viewBox="0 0 600 170" style="width:100%; height:170px">
+        <path d="${path}" fill="none" stroke="#1f4b3e" stroke-width="2.4"/>
+        ${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#1f4b3e"/><text x="${p.x}" y="166" font-size="11" fill="#8b9089" text-anchor="middle" font-family="IBM Plex Mono">${p.d}</text>`).join('')}
+      </svg>
+    </div>
+    <div class="sec-head" style="margin-top:0"><h2 style="font-size:18px">예약 내역</h2></div>
+    <div class="chart-box" style="padding:8px 24px">
+      ${MY_BOOKINGS.map(b=>`<div class="book-row"><div><div style="font-weight:500">${b.site}</div><div style="font-size:12.5px; color:var(--ink-faint)">${b.program} · ${b.date}</div></div><div style="text-align:right"><div class="mono" style="font-size:13.5px">₩${b.amount.toLocaleString()}</div><span class="status-pill">${b.status}</span></div></div>`).join('')}
+    </div>`;
+}
+
+let measuring = false;
+function renderMeasure(){
+  const gate = document.getElementById('measureGate');
+  if(!loggedIn){
+    gate.innerHTML = `<div class="notebox" style="max-width:460px">${tt('loginNeeded')} — 뇌파 측정은 로그인 후 이용할 수 있습니다.</div>
+    <button class="btn btn-primary" style="margin-top:6px" onclick="go('auth')">${tt('login')}</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="doAuth()">${tt('guest')}</button>`;
+    return;
+  }
+  gate.innerHTML = `
+    <div class="measure-wrap">
+      <p style="color:var(--ink-soft)">뉴로피드백 방식의 뇌파(α/θ/β)를 측정 시뮬레이션하고, Agent AI가 개인 맞춤형 치유 유형을 추천합니다. (FR-2.5 실기기 연동은 다음 라운드 예정)</p>
+      <div class="wave-band">
+        <div class="b"><div class="bar"><div class="fill" id="fillA" style="height:0%"></div></div>α 알파</div>
+        <div class="b"><div class="bar"><div class="fill" id="fillT" style="height:0%"></div></div>θ 세타</div>
+        <div class="b"><div class="bar"><div class="fill" id="fillB" style="height:0%"></div></div>β 베타</div>
+      </div>
+      <button class="btn btn-primary" id="measureBtn" onclick="startMeasure()">측정 시작하기</button>
+      <div id="measureResult"></div>
+    </div>`;
+}
+function startMeasure(){
+  if(measuring) return;
+  measuring = true;
+  const btn = document.getElementById('measureBtn');
+  btn.disabled = true; btn.textContent = '측정 중… (시뮬레이션)';
+  document.getElementById('fillA').style.height='0%';
+  document.getElementById('fillT').style.height='0%';
+  document.getElementById('fillB').style.height='0%';
+  document.getElementById('measureResult').innerHTML='';
+  setTimeout(()=>{
+    const a = 40+Math.round(Math.random()*30), th = 30+Math.round(Math.random()*30), b = 20+Math.round(Math.random()*25);
+    document.getElementById('fillA').style.height=a+'%';
+    document.getElementById('fillT').style.height=th+'%';
+    document.getElementById('fillB').style.height=b+'%';
+    const stress = Math.max(20, 100-a-Math.round(th*0.4));
+    const recs = ['힐링명상 · 국악풍류 소리치유원','자연숲치유 · 계룡산 숲치유센터','한방 · 오정법 체질 스파'];
+    const rec = recs[Math.floor(Math.random()*recs.length)];
+    document.getElementById('measureResult').innerHTML = `
+      <div class="rec-box">
+        <div style="font-size:12.5px; color:var(--jade-light); font-weight:700; letter-spacing:.04em">AGENT AI 추천 결과</div>
+        <div style="font-size:22px; font-family:'IBM Plex Mono',monospace; color:var(--jade); margin:8px 0">스트레스 지수 ${stress}</div>
+        <p style="margin:6px 0">추천 치유 유형: <b>${rec}</b></p>
+        <button class="btn btn-seal" style="margin-top:10px" onclick="go('explore')">추천 시설 탐색하기 →</button>
+      </div>`;
+    btn.disabled=false; btn.textContent='다시 측정하기';
+    measuring=false;
+    toast('측정이 완료되었습니다');
+  }, 2200);
+}
+
+function ptable(headers, rows){
+  return `<div class="chart-box" style="padding:0; overflow-x:auto;"><table class="psst-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function pstat(label,val,accent){ return `<div class="stat"><div class="lbl">${label}</div><div class="val" ${accent?`style="color:var(--seal)"`:''}>${val}</div></div>`; }
+
+const PSST_SECTIONS = [
+ {id:'trend', label:'트렌드'},
+ {id:'ax', label:'AX·뇌과학'},
+ {id:'db88', label:'88선 DB'},
+ {id:'agents', label:'에이전트'},
+ {id:'canvas1', label:'캔버스'},
+ {id:'future', label:'미래 가치'},
+ {id:'mvp', label:'현황'}
+];
+let psstSub = 'trend';
+let db88Cat = '전체';
+function setDb88Cat(c){ db88Cat = c; renderPsst('db88'); }
+
+const PSST_CONTENT = {
+ trend(){
+  return `
+   <p>한국 여가·숙박 산업은 세 단계로 진화하고 있으며, K-MediWell은 그 세 번째 단계를 준비하는 플랫폼입니다. 트래블테크(Travel-Tech) 확산으로 예약·안내 같은 반복 업무가 자동화될수록, 역설적으로 인간만이 제공할 수 있는 치유·정서적 교감의 희소성은 커집니다.</p>
+   ${ptable(['단계','정의','사례'],[
+     ['① 야놀자 시대 (2010~)','숙박·레저를 "예약"하는 슈퍼앱 시대','야놀자(현 NOL)'],
+     ['② 더휴식 시대 (2020~)','"쉼(Rest)"의 상품화','더휴식 웰니스 호스텔 · 야놀자 협업 기획전'],
+     ['③ 더 치유의 시대 (2026~)','뇌과학으로 증명된 "치유"의 상품화','K-MediWell — 뇌파 AX 인증(Gold·Silver·Bronze)']
+   ])}
+   <div class="psst-h3">한류관광 → K-원류관광(K-Origin Tourism)</div>
+   <p>2025년 「케이팝 데몬 헌터스」와 2026년 BTS 『ARIRANG』은 한류의 중심이 K-팝·K-드라마라는 '표층 콘텐츠'에서 그 밑의 한국 전통문화·정신문화라는 '원류(源流)'로 이동하고 있다는 신호입니다.</p>
+   <div class="stat-row">
+     ${pstat('케데헌 넷플릭스 누적 시청','2.66억',false)}
+     ${pstat('BTS ARIRANG 빌보드 200','2주 연속 1위',false)}
+     ${pstat('K-컬처 치유 팬덤 추정','약 1.5억 명',true)}
+   </div>
+   <div class="psst-h3">목표 시장 — 4단계 타겟 구조</div>
+   ${ptable(['단계','대상','규모·근거'],[
+     ['1차','전자북 100여권 출간','아마존 등 전자북 8권 등록 완료'],
+     ['2차','문체부 선정 웰니스관광지 88선 중 외래객 특화 20선','개소당 최대 5,000만원 지원, 즉시 실행'],
+     ['3차','나머지 68개소','Phase 2(7~18개월) 순차 확장'],
+     ['4차','치유관광산업법 신설 시설·서비스업','법 시행 이후 신규 등록 사업자, 지속 확장']
+   ])}`;
+ },
+ ax(){
+  return `
+   <p>치유관광을 '느낌·후기' 중심 저부가가치 관광이 아니라 과학 기반 고부가가치 산업으로 육성해야 하는 근거는 하버드 의과대학 정신의학과 크리스토퍼 M. 팔머 교수의 저서 『브레인 에너지(Brain Energy)』입니다. 정신적 문제 상당수가 뇌세포(미토콘드리아) 에너지 대사 부족에서 비롯된다는 이론을 AI·로봇 시대 번아웃에 응용하여, 뉴로피드백 기술의 뇌파(EEG)를 치유 효과의 객관적 측정 기준으로 채택합니다.</p>
+   <div class="psst-h3">AX 인증 등급 체계</div>
+   ${ptable(['등급','기준(예시)','표기'],[
+     ['Gold','8주 이상 프로그램, 참여자 평균 스트레스지수 30% 이상 감소','금 인장 배지'],
+     ['Silver','뇌파 측정 연계 프로그램, 참여자 70% 이상 개선 응답','은 인장 배지'],
+     ['Bronze','AX 인증 준비 단계, 체질·이론 기반 프로그램','동 인장 배지']
+   ])}
+   <div class="psst-h3">실증 사례 — 충남교육청 꿈키움 프로그램</div>
+   <div class="notebox">충청남도교육청 2026학년도 여름방학 '꿈키움 학교밖교육'에서 국립공주대 스마트의료웰니스관광대학원(이용근 주임교수 설계)이 2026.7.20~8.6 8일간 뇌과학 기반 K-치유관광 프로그램을 운영했습니다. 청소년 참가자의 맨발걷기(어싱)·국악치유음악·치유명상·치유요가 체험 전후 뇌파를 측정해 변화를 실증 — 국악치유음악 이규영, 치유명상 강태원(법천사 태원 스님), 치유요가 정효원, 뇌파측정 박보정 전문가 협업.</div>
+   <button class="btn btn-primary" onclick="go('measure')">뇌파 측정 시뮬레이션 체험하기 →</button>`;
+ },
+ db88(){
+  const cats = ['전체','자연숲치유','뷰티스파','힐링명상','한방','스테이','푸드'];
+  const list88 = db88Cat==='전체' ? SITES88 : SITES88.filter(s=>s.theme===db88Cat);
+  return `
+   <p>문체부·한국관광공사 공식 선정 웰니스관광 88선 전체와, 그 중 외래객 유치를 위해 별도 선정된 특화 20선(+K-MediWell 추가 등재 1개소)을 원문 그대로 등재했습니다.</p>
+   <div class="psst-h3">웰니스관광지 88선 전체</div>
+   <div class="filterbar" style="margin:10px 0 18px">${cats.map(c=>`<button class="chip ${db88Cat===c?'active':''}" onclick="setDb88Cat('${c}')">${c}</button>`).join('')}</div>
+   <div class="grid">${list88.map(gov88Card).join('')}</div>
+   <div class="psst-h3">외래객 유치 특화 웰니스관광지 20선 + K-MediWell 추가 1개소</div>
+   <div class="notebox">2026년도 외래객 유치 특화 웰니스 관광지 20선 원본 목록에, K-MediWell 자체 협업 시설(법천사 치유명상 템플스테이)을 21번으로 추가 등재했습니다. 분류는 원문 그대로 유지하며 별도 테마 재분류를 하지 않았습니다.</div>
+   <div class="grid" style="margin-top:16px">${SITES20.map(gov20Card).join('')}</div>
+   <button class="btn btn-ghost" onclick="go('explore')">앱 예약 탐색 화면으로 →</button>`;
+ },
+ agents(){
+  return `
+   <p>K-MediWell은 두 종류의 에이전트를 축으로 합니다 — 이용자의 치유 상태를 해석하는 <b>Agent AI</b>와, 콘텐츠를 세계로 실어나르는 <b>사람 에이전트(유학생 글로벌 셀러 · 치유관광 기자단)</b>입니다.</p>
+   <div class="psst-h3">Agent AI — 뇌파 기반 추천 엔진 (FR-2.2)</div>
+   <p style="font-size:14px">healing.recommend가 뇌파(α/θ/β) 측정값을 분석해 개인 맞춤 치유 유형을 추천하고, AX 인증 등급(Gold·Silver·Bronze)으로 신뢰를 객관화합니다.</p>
+   <div class="stepflow">
+    <div class="step">뇌파 측정</div><div class="arrow">→</div>
+    <div class="step">healing.recommend</div><div class="arrow">→</div>
+    <div class="step">맞춤 유형 추천</div><div class="arrow">→</div>
+    <div class="step">AX 등급 매칭</div>
+   </div>
+   <div class="psst-h3">사람 에이전트 — 글로벌 셀러 · 치유관광 기자단 (FR-8)</div>
+   <p style="font-size:14px">국내 체류 유학생(308,838명)을 자국어 기사 작성·콘텐츠 홍보를 담당하는 치유관광 기자단이자, 글로벌 셀러로 양성합니다. 베트남·중국(1순위) → 우즈베키스탄·몽골(2순위) → 네팔·일본·대만·영어권(3순위) 순으로 확장합니다.</p>
+   <div class="psst-h3">Gencow AI 바이브코딩 파이프라인</div>
+   <div class="stepflow">
+    <div class="step">npx gencow init</div><div class="arrow">→</div>
+    <div class="step">gencow dev</div><div class="arrow">→</div>
+    <div class="step">gencow deploy</div><div class="arrow">→</div>
+    <div class="step">kmediwell.com</div>
+   </div>
+   <button class="btn btn-primary" onclick="go('measure')">Agent AI 추천 체험하기 →</button>`;
+ },
+ canvas1(){
+  return `
+   <p>K-MediWell의 비즈니스 모델을 9블록 캔버스로 요약합니다.</p>
+   <div class="bmc">
+     <div class="cell c-partners"><h5>핵심 파트너</h5><p>문체부·한국관광공사 · 국립공주대 RISE사업단 · 웰니스관광지 88선 운영자 · 법천사·국악·요가 전문가 협업</p></div>
+     <div class="cell c-activities"><h5>핵심 활동</h5><p>전자북 저술·출간, 다국어 저널리즘, EEG 측정·AX 인증, 유학생 셀러 양성</p></div>
+     <div class="cell c-value"><h5>가치 제안</h5><p>후기가 아닌 뇌파 데이터로 증명하는 치유관광. 전자북→기사→예약→재투자 선순환 전생애주기 케어</p></div>
+     <div class="cell c-relation"><h5>고객 관계</h5><p>구독(전자북) · 커뮤니티(치유관광타임즈) · 반복 방문(여정 기록)</p></div>
+     <div class="cell c-customer"><h5>고객군</h5><p>전 세계 한류 팬덤(주 타겟) · 해외동포 820만 · 국내 유학생 30.9만 · 웰니스관광지 운영자(B2B)</p></div>
+     <div class="cell c-resources"><h5>핵심 자원</h5><p>10년 축적 이론(오정법·전일의학) · 전자북 8권 IP · kmediwell.com 플랫폼 · 도메인 자산</p></div>
+     <div class="cell c-channels"><h5>채널</h5><p>아마존 KDP · healingtourtimes.com · kmediwell.com · 대학 교과·비교과 프로그램</p></div>
+     <div class="cell c-cost"><h5>비용 구조</h5><p>콘텐츠 제작·번역비 · 플랫폼 개발·PG연동비 · EEG 실기기 · 유학생 파일럿 교육비</p></div>
+     <div class="cell c-revenue"><h5>수익원</h5><p>예약수수료 5~10% · 전자북 판매(30/70) · 전자북 출판등록 서비스 · 라이선스·B2B 용역 · AX 인증·K-BEPC 교육 수강료</p></div>
+   </div>`;
+ },
+ future(){
+  return `
+   <div class="stat-row">
+     ${pstat('2035 시장 전망(야놀자리서치)','1,000조원',false)}
+     ${pstat('2025 의료관광객 1인당 지출 배율','4.3배',true)}
+     ${pstat('RISE 앵커사업 목표 참여','50명+',false)}
+   </div>
+   <div class="psst-h3">5단계 자금·지위 조달 흐름</div>
+   <div class="stepflow">
+    <div class="step">① 자기자본</div><div class="arrow">→</div>
+    <div class="step">② 정부·대학 지원금</div><div class="arrow">→</div>
+    <div class="step">③ 자생 매출</div><div class="arrow">→</div>
+    <div class="step">④ 기관 지위 확보</div><div class="arrow">→</div>
+    <div class="step">⑤ 교육 수익화</div>
+   </div>
+   <p>뒤로 갈수록 외부 의존도는 낮아지고 자생력은 높아지는 구조입니다. 특히 ④단계는 국립공주대 RISE사업단 「AI 기술 기반의 K-로컬 치유관광 콘텐츠 창업자 양성」 과제 선정(2026.6)으로 이미 실행 근거를 확보했습니다.</p>
+   <div class="psst-h3">청년 고용·사회적 가치</div>
+   <p>국내 체류 유학생을 글로벌 셀러·치유관광 기자단으로 양성해 청년 창직을 플랫폼 구조에 내장합니다. RISE 비교과 프로그램은 지역 창업 실적 3건, 참여 50명 이상을 고정 성과지표로 운영합니다.</p>
+   <div class="psst-h3">Phase 3 — 글로벌 확장 (2년차~)</div>
+   <p>치유관광시설·서비스업(4차 타겟) 우선 입점, B2B 도구 구축, 전문인력 양성기관 지위를 기반으로 K-BEPC 교육과정을 자체 수익원으로 전환합니다.</p>`;
+ },
+ mvp(){
+  return `
+   <p>기획이 아니라 실제로 작동하는 코드베이스(kmediwell.com)로 증명하는 현재 개발 현황입니다.</p>
+   ${ptable(['기능','상태','비고'],[
+     ['FR-1~2 카탈로그·EEG측정·AX인증','P1 ✅ 완료','실기기 EEG 연동은 다음 단계'],
+     ['FR-3 예약·결제','P1 ✅ 완료(PG 미연동)','예약수수료 매출모델의 전제'],
+     ['FR-4 전자북 스토어·구독','P1 ✅ 완료(실판매 미연동)','자체결제/아마존 딥링크 확정 예정'],
+     ['FR-6 다국어(i18n)','P2 부분(한/영)','중·일·베 순차 확장'],
+     ['FR-7 치유관광타임즈','P2 열람 UI 완료','기자단 작성도구는 다음 단계'],
+     ['FR-8 글로벌 셀러·유학생 파일럿','P3 설계 완료','RISE 비교과 프로그램과 연동']
+   ])}
+   <div class="psst-h3">실적 요약</div>
+   <div class="stat-row">
+     ${pstat('전자북 출간','8권',false)}
+     ${pstat('다국어 인터넷신문','1개(4개국어 목표)',false)}
+     ${pstat('대학 공식 선정 과제','1건 (RISE)',true)}
+   </div>
+   <div class="psst-h3">로드맵</div>
+   <div class="stepflow">
+    <div class="step">Phase 1 · 0~6개월</div><div class="arrow">→</div>
+    <div class="step">Phase 2 · 7~18개월</div><div class="arrow">→</div>
+    <div class="step">Phase 3 · 2년차~</div>
+   </div>`;
+ }
+};
+
+function renderPsst(sub){
+  if(sub) psstSub = sub;
+  document.getElementById('psstSubNav').innerHTML = PSST_SECTIONS.map(s=>`<button class="chip ${psstSub===s.id?'active':''}" onclick="go('psst','${s.id}')">${s.label}</button>`).join('');
+  document.getElementById('psstBody').innerHTML = PSST_CONTENT[psstSub]();
+}
+
+function renderAll(){
+  document.getElementById('localeSel').value = locale;
+  updateAuthPill();
+  renderNav();
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===currentView));
+  renderHome();
+  renderExplore();
+  renderNews();
+  renderEbooks();
+  animateWave();
+}
+function animateWave(){
+  const path = document.getElementById('eegpath');
+  if(!path) return;
+  let t = 0;
+  function frame(){
+    t += 0.02;
+    let d = 'M0,60 ';
+    for(let x=0;x<=880;x+=40){
+      const y = 60 + Math.sin(x*0.045+t)*16 + Math.sin(x*0.02+t*1.7)*8;
+      d += `L${x},${y} `;
+    }
+    path.setAttribute('d', d);
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+renderAll();
+</script>
+</body>
+</html>
